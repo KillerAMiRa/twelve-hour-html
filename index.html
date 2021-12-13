@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>十二时辰</title>
 </head>
 <body>
   <script type="module">
@@ -24,6 +24,41 @@
       // share it with app scopes
       store
     }).mount()
+
+    const d = new Date()
+    const s = time(d.getHours())
+		const m = time(d.getMinutes())
+    console.log(s, m)
+
+    function time(d) {
+      if (d < 10) {
+        return '0' + d
+      }
+      return d
+    }
+
+    const data = [
+      { 'name': '子时', 'star': '23:00', 'end': '23:59' },
+      { 'name': '子时', 'star': '00:00', 'end': '00:59' },
+      { 'name': '丑时', 'star': '01:00', 'end': '02:59' },
+      { 'name': '寅时', 'star': '03:00', 'end': '04:59' },
+      { 'name': '卯时', 'star': '05:00', 'end': '06:59' },
+      { 'name': '辰时', 'star': '07:00', 'end': '08:59' },
+      { 'name': '巳时', 'star': '09:00', 'end': '10:59' },
+      { 'name': '午时', 'star': '11:00', 'end': '12:59' },
+      { 'name': '未时', 'star': '13:00', 'end': '14:59' },
+      { 'name': '申时', 'star': '15:00', 'end': '16:59' },
+      { 'name': '酉时', 'star': '17:00', 'end': '18:59' },
+      { 'name': '戌时', 'star': '19:00', 'end': '20:59' },
+      { 'name': '亥时', 'star': '21:00', 'end': '22:59' }
+    ]
+
+    function constantly(date) {
+      const obj = data.find(k => date > k.star && date < k.end)
+      return obj.name || 'wu'
+    }
+
+    console.log(constantly(`${s}:${m}`))
   </script>
 
   <div v-scope="{ localCount: 0 }">
