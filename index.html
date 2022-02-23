@@ -10,21 +10,6 @@
   <script type="module">
     import { createApp, reactive } from 'https://unpkg.com/petite-vue?module'
 
-    const store = reactive({
-      count: 0,
-      inc() {
-        this.count++
-      }
-    })
-
-    // manipulate it here
-    store.inc()
-
-    createApp({
-      // share it with app scopes
-      store
-    }).mount()
-
     const d = new Date()
     const s = time(d.getHours())
 		const m = time(d.getMinutes())
@@ -55,18 +40,29 @@
 
     function constantly(date) {
       const obj = data.find(k => date > k.star && date < k.end)
-      return obj.name || 'wu'
+      return obj.name || '暂无时间'
     }
 
-    console.log(constantly(`${s}:${m}`))
+    const store = reactive({
+      timeed: s + ':' + m,
+      moun: '',
+      getTime() {
+        this.timeed = s + ':' + m
+        this.moun = constantly(`${s}:${m}`)
+      }
+    })
+
+    createApp({
+      // share it with app scopes
+      store
+    }).mount()
   </script>
 
-  <div v-scope="{ localCount: 0 }">
-    <p>Global {{ store.count }}</p>
-    <button @click="store.inc">increment</button>
+  <div>
+    <p>现在是 {{ store.timeed }} </p>
+    <p>{{ store.moun }} </p>
 
-    <p>Local {{ localCount }}</p>
-    <button @click="localCount++">increment</button>
+    <button @click="store.getTime">获取时间</button>
   </div>
 
 </body>
